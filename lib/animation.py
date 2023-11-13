@@ -19,8 +19,7 @@ from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 class animation():
 
-    def __init__(self, limits, flag=False):
-
+    def __init__(self, limits, groundVerts, flag=False):
         self.flag_init = True
         self.fig = plt.figure(1)
         if flag == True:
@@ -29,13 +28,26 @@ class animation():
             self.ax = self.fig.add_subplot(111, projection='3d')
         self.ax.set_xlim([-limits,limits])
         self.ax.set_ylim([-limits,limits])
-        self.ax.set_zlim([-limits,limits])
+        self.ax.set_zlim([-0.1,limits])
         self.lim = limits
         self.ax.set_title('3D Animation')
         self.ax.set_xlabel('East(m)')
         self.ax.set_ylabel('North(m)')
         self.ax.set_zlabel('Height(m)')
-
+    
+        self.ground_faces = np.reshape(groundVerts, (-1, 5, 3)) #self.genGroundFaces(groundVerts)
+        self.QualityMap = None
+       
+    def setGroundFaceColors(self):
+        landQualMap = self.QualityMap
+        nRows, nCols = np.shape(landQualMap)
+        color_choices = ['tab:red','tab:orange','y','tab:green']
+        self.groundFaceColors = []
+        for r in range(nRows):
+            for c in range(nCols):
+                self.groundFaceColors.append(color_choices[int(landQualMap[c,r])-1])
+        
+    
     def rotate_translate(self, vertices, pn, pe, pd, phi, theta, psi):
 
         pos_ned = np.array([pn, pe, pd])
@@ -56,31 +68,110 @@ class animation():
 
         return(newVerts)
 
-    def update(self, vertices, pn, pe, pd, phi, theta, psi):
+    def update(self, vertices, UAV_state, VAN_state):
         # draw object
-        self.draw(vertices, pn, pe, pd, phi, theta, psi)
+        self.draw_ground()
+        self.draw(vertices, VAN_state)
+        
 
         # Set initialization flag to False after first call
         if self.flag_init == True:
             self.flag_init = False
 
 
-    def draw(self, vertices, pn, pe, pd, phi, theta, psi):
-
+    def draw(self, vertices, state_array): # Van and UAV
+        [pn, pe, pd, phi, theta, psi] = state_array
         vertices = np.reshape(vertices, (-1, 3)) # reshapes to (N, 3) based on given vertices
         obj_verts = self.rotate_translate(vertices, pn, pe, pd, phi, theta, psi)
         faces = np.reshape(obj_verts, (-1, 3, 3)) 
 
         if self.flag_init is True:
-            poly = Poly3DCollection(faces, alpha=.6)
+            poly = Poly3DCollection(faces, alpha=1)
             self.object = self.ax.add_collection3d(poly)
             self.ax.set_xlim([pe-self.lim, pe+self.lim])
             self.ax.set_ylim([pn-self.lim, pn+self.lim])
-            self.ax.set_zlim([-pd-self.lim, -pd+self.lim])
             plt.pause(0.01)
         else:
             self.object.set_verts(faces)
             self.ax.set_xlim([pe-self.lim, pe+self.lim])
             self.ax.set_ylim([pn-self.lim, pn+self.lim])
-            self.ax.set_zlim([-pd-self.lim, -pd+self.lim])
             plt.pause(0.01)
+            
+        
+    def draw_ground(self):
+        # print('ground')
+        if self.flag_init is True:
+            self.setGroundFaceColors()
+            poly = Poly3DCollection(self.ground_faces, alpha=.6, facecolors=self.groundFaceColors)
+            self.ground = self.ax.add_collection3d(poly)
+
+        else:
+            self.object.set_verts(self.ground_faces)
+    
+    def genGroundFaces(self, verts):
+        # np.zeros([(size**2), 5, 3])
+        faces = []
+        numF, numV, xyz = np.shape(verts)
+        
+        for f in range(numF):
+            f_x = []
+            f_y = []
+            f_z = []
+            
+            for v in range(numV):
+                f_x.append(verts[f,v,0])
+                f_y.append(verts[f,v,1])
+                f_z.append(verts[f,v,2])
+            
+                face = np.vstack((np.array(f_x),np.array(f_y),np.array(f_z)))
+                faces.append[face]
+            
+        tran_faces = np.transpose(np.array(faces), (2, 1, 0))
+        return tran_faces
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+        

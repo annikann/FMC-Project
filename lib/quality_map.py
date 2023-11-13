@@ -7,7 +7,7 @@ import numpy as np
 # 1 = Terrible
 
 def quality():
-    size = 50
+    size = 10
     qual = np.zeros([size,size])
 
     for i in range(size):
