@@ -15,12 +15,15 @@ anim.QualityMap = qual
 anim.van_verts = van_verts
 anim.drone_verts = drone_verts
 
-t = 7
+t = 0
+plt.pause(5)
 while t < 10:
     van_state = van_states(t)
     uav_state = drone_states(t)
     anim.update(uav_state, van_state)
     print(t)
     plt.pause(0.001)
-    t += 0.1
+    t += 0.05
+    break
+    
 # 

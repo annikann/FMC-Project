@@ -72,7 +72,7 @@ class animation():
 
     def update(self, UAV_state, VAN_state):
         # draw object
-        # self.draw_ground()
+        self.draw_ground()
         self.draw_van(VAN_state)
         self.draw_drone(UAV_state)
         
