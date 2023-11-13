@@ -1,4 +1,4 @@
-# F18 Test Sim (to check general animation file)
+# Test Sim file (to check general animation file)
 
 from lib import animation
 from lib.objects import van_verts

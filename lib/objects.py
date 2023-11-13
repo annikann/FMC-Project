@@ -1,4 +1,5 @@
-# Test Vertices
+# Objects needed for simulation
+
 import numpy as np
 from stl import mesh
 import matplotlib.pyplot as plt
