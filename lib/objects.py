@@ -14,12 +14,16 @@ sys.path.append(stlpath)
 
 # van
 van_path = os.path.join(stlpath, 'van.stl')
+drone_path = os.path.join(stlpath, 'X_Shape.stl')
 try:
     van_mesh = mesh.Mesh.from_file(van_path)
+    drone_mesh = mesh.Mesh.from_file(drone_path)
 except:
     van_mesh = mesh.Mesh.from_file(van_path.replace('\\lib\\lib','\\lib'))
+    drone_mesh = mesh.Mesh.from_file(drone_path.replace('\\lib\\lib','\\lib'))
+    
 van_verts = (van_mesh.vectors*np.array([-1, 1, -1]))/30
-
+drone_verts = (drone_mesh.vectors*np.array([-1, 1, -1]))/30
 # Ground
 qual, size = quality()
 qual_verts = np.zeros([(size**2), 5, 3])

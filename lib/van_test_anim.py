@@ -29,12 +29,12 @@ def van_states(t):
         psi = np.deg2rad(-90)
 
     else:
-        pn = -n0
+        pn = n0
         pe = -e0 + 55.*((t%2.5)/2.5)
 
         psi = np.deg2rad(180)
 
-    return(pn,pe,pd,phi,theta,psi)
+    return [pn,pe,pd,phi,theta,psi]
         
         
 

@@ -35,6 +35,8 @@ class animation():
         self.ax.set_ylabel('North(m)')
         self.ax.set_zlabel('Height(m)')
     
+        self.drone_verts = None
+        self.van_verts = None
         self.ground_faces = np.reshape(groundVerts, (-1, 5, 3)) #self.genGroundFaces(groundVerts)
         self.QualityMap = None
        
@@ -68,10 +70,11 @@ class animation():
 
         return(newVerts)
 
-    def update(self, vertices, UAV_state, VAN_state):
+    def update(self, UAV_state, VAN_state):
         # draw object
-        self.draw_ground()
-        self.draw(vertices, VAN_state)
+        # self.draw_ground()
+        self.draw_van(VAN_state)
+        self.draw_drone(UAV_state)
         
 
         # Set initialization flag to False after first call
@@ -79,23 +82,38 @@ class animation():
             self.flag_init = False
 
 
-    def draw(self, vertices, state_array): # Van and UAV
+    def draw_van(self, state_array): # Van and UAV
         [pn, pe, pd, phi, theta, psi] = state_array
-        vertices = np.reshape(vertices, (-1, 3)) # reshapes to (N, 3) based on given vertices
+        vertices = np.reshape(self.van_verts, (-1, 3)) # reshapes to (N, 3) based on given vertices
         obj_verts = self.rotate_translate(vertices, pn, pe, pd, phi, theta, psi)
         faces = np.reshape(obj_verts, (-1, 3, 3)) 
 
         if self.flag_init is True:
             poly = Poly3DCollection(faces, alpha=1)
-            self.object = self.ax.add_collection3d(poly)
-            self.ax.set_xlim([pe-self.lim, pe+self.lim])
-            self.ax.set_ylim([pn-self.lim, pn+self.lim])
-            plt.pause(0.01)
+            self.van = self.ax.add_collection3d(poly)
+            # self.ax.set_xlim([pe-self.lim, pe+self.lim])
+            # self.ax.set_ylim([pn-self.lim, pn+self.lim])
         else:
-            self.object.set_verts(faces)
-            self.ax.set_xlim([pe-self.lim, pe+self.lim])
-            self.ax.set_ylim([pn-self.lim, pn+self.lim])
-            plt.pause(0.01)
+            self.van.set_verts(faces)
+            # self.ax.set_xlim([pe-self.lim, pe+self.lim])
+            # self.ax.set_ylim([pn-self.lim, pn+self.lim])
+
+            
+    def draw_drone(self, state_array):
+        [pn, pe, pd, phi, theta, psi] = state_array
+        vertices = np.reshape(self.drone_verts, (-1, 3)) # reshapes to (N, 3) based on given vertices
+        obj_verts = self.rotate_translate(vertices, pn, pe, pd, phi, theta, psi)
+        faces = np.reshape(obj_verts, (-1, 3, 3)) 
+
+        if self.flag_init is True:
+            poly = Poly3DCollection(faces, alpha=1)
+            self.drone = self.ax.add_collection3d(poly)
+            # self.ax.set_xlim([pe-self.lim, pe+self.lim])
+            # self.ax.set_ylim([pn-self.lim, pn+self.lim])
+        else:
+            self.drone.set_verts(faces)
+            # self.ax.set_xlim([pe-self.lim, pe+self.lim])
+            # self.ax.set_ylim([pn-self.lim, pn+self.lim])
             
         
     def draw_ground(self):

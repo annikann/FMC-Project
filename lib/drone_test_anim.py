@@ -21,4 +21,4 @@ def drone_states(t):
         theta = ve*np.deg2rad(30)
         psi = 0
 
-    return(pn,pe,pd,phi,theta,psi)
+    return [pn,pe,pd,phi,theta,psi]
