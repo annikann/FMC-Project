@@ -22,9 +22,9 @@ ts_control = ts_simulation  # sample rate for the controller
                 #   Initial Conditions
 ######################################################################################
 #   Initial conditions for MAV
-pn0 = 1.5  # initial north position
+pn0 = 0.  # initial north position
 pe0 = 0.  # initial east position
-pd0 = -0.75  # initial down position
+pd0 = 0.  # initial down position
 u0 = 0.  # initial velocity along body x-axis
 v0 = 0.  # initial velocity along body y-axis
 w0 = 0.  # initial velocity along body z-axis
@@ -59,33 +59,9 @@ e3 = e.item(3)
 ######################################################################################
                 #   Physical Parameters
 ######################################################################################
-# Quadrotr Inertial Parameters
+# Quadrotor Inertial Parameters
 Jx = 0.114700
 Jy = 0.057600
 Jz = 0.171200
 g = 9.806650
 m = 1.56
-########################################
-## Animation Parameters ######
-size=0.5
-show_animation = True
-
-fig = plt.figure(1)
-# for stopping simulation with the esc key.
-fig.canvas.mpl_connect('key_release_event',
-        lambda event: [exit(0) if event.key == 'escape' else None])
-
-ax = fig.add_subplot(111, projection='3d') # this will be passed around for animation
-plt.xlim(-2, 2)
-plt.ylim(-2, 2)
-ax.set_zlim(0, 4)
-plt.xlabel('North')
-plt.ylabel('East')
-### draw earth
-rs = 0.6
-us, vs = np.mgrid[0:2 * np.pi:30j, 0:np.pi:20j]
-xs = rs*np.cos(us) * np.sin(vs)
-ys = rs*np.sin(us) * np.sin(vs)
-zs = rs*np.cos(vs)
-ax.plot_surface(xs, ys, zs)
-#..................................................................

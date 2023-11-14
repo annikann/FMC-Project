@@ -10,7 +10,7 @@ import numpy as np
 #import matplotlib.pyplot as plt
 from matplotlib import pyplot as plt
 import mpl_toolkits.mplot3d.axes3d as p3
-import parameters.quad_parameters as quad
+import lib.quadParameters as quad
 
 class quad_animation():
     def __init__(self, state0, size=0.25, show_animation=True):

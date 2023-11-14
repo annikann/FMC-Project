@@ -16,13 +16,13 @@ class quadDynamics:
         self.Jy = P.Jy
         self.Jz = P.Jz
 
-    def update(self, fx, fy, fz, l, m, n):
+    def update(self, F, l, m, n):
         # saturate the input force
-        self.rk4_step(fx, fy, fz, l, m, n)  # propagate the state by one time sample
+        self.rk4_step(F, l, m, n)  # propagate the state by one time sample
         y = self.h()  # return the corresponding output
         return y
 
-    def f(self, state, forces_moments):
+    def f(self, state, F, l, m, n):
 
         # extract the states
         pn = state[0][0]
@@ -37,12 +37,6 @@ class quadDynamics:
         p = state[9][0]
         q = state[10][0]
         r = state[11][0]
-
-        #   extract forces/moments
-        F = forces_moments.item(0)
-        t_phi = forces_moments.item(1)
-        t_theta = forces_moments.item(2)
-        t_psi = forces_moments.item(3)
 
         ThrustVecBody = np.array([0, 0, -F/self.m]).T
         gravity_vec = np.array([0, 0, self.g]).T
@@ -71,13 +65,13 @@ class quadDynamics:
         psidot = temp2[2]
 
         # rotatonal dynamics
-        pdot = (self.Jy - self.Jz)/self.Jx * q * r + 1/self.Jx * t_phi
-        qdot = (self.Jz - self.Jx)/self.Jy * p * r + 1/self.Jy * t_theta
-        rdot = (self.Jx - self.Jy)/self.Jz * p * q + 1/self.Jz * t_psi
+        pdot = (self.Jy - self.Jz)/self.Jx * q * r + 1/self.Jx * l
+        qdot = (self.Jz - self.Jx)/self.Jy * p * r + 1/self.Jy * m
+        rdot = (self.Jx - self.Jy)/self.Jz * p * q + 1/self.Jz * n
 
         # collect the derivative of the states
         x_dot = np.array([[pndot, pedot, pddot, udot, vdot, wdot, phidot, thetadot, psidot, pdot, qdot, rdot]]).T
-        #print(x_dot)
+
         return x_dot
     
     def h(self):
