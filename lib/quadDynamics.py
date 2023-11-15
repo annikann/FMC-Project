@@ -90,10 +90,10 @@ class quadDynamics:
         y = np.array([[pn], [pe], [pd], [u], [v], [w], [phi], [theta], [psi], [p], [q], [r]], dtype=float)
         return y
 
-    def rk4_step(self, fx, fy, fz, l, m, n):
+    def rk4_step(self, F, l, m, n):
         # Integrate ODE using Runge-Kutta RK4 algorithm
-        k1 = self.f(self.state, fx, fy, fz, l, m, n)
-        k2 = self.f(self.state + self.Ts/2.*k1, fx, fy, fz, l, m, n)
-        k3 = self.f(self.state + self.Ts/2.*k2, fx, fy, fz, l, m, n)
-        k4 = self.f(self.state + self.Ts*k3, fx, fy, fz, l, m, n)
+        k1 = self.f(self.state, F, l, m, n)
+        k2 = self.f(self.state + self.Ts/2.*k1, F, l, m, n)
+        k3 = self.f(self.state + self.Ts/2.*k2, F, l, m, n)
+        k4 = self.f(self.state + self.Ts*k3, F, l, m, n)
         self.state += self.Ts/6 * (k1 + 2*k2 + 2*k3 + k4)
