@@ -70,11 +70,15 @@ class animation():
 
         return(newVerts)
 
-    def update(self, UAV_state, VAN_state):
+    def update(self, UAV_state, VAN_state, flag=False):
         # draw object
-        self.draw_ground()
-        self.draw_van(VAN_state)
-        self.draw_drone(UAV_state)
+        if flag == True:
+            self.draw_ground()
+            self.draw_van(VAN_state)
+            self.draw_drone(UAV_state)
+        else:
+            self.draw_van(VAN_state)
+            self.draw_drone(UAV_state)
         
 
         # Set initialization flag to False after first call
