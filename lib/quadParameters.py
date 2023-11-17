@@ -65,3 +65,42 @@ Jy = 0.057600
 Jz = 0.171200
 g = 9.806650
 m = 1.56
+
+# Gains
+trt = 0.8
+wnt = 2.2/trt
+squigt = 0.707
+kdt = 2*squigt*wnt*(Jz)
+kpt = (wnt**2)*((Jz))
+kit = 1.0
+
+trp = 0.8
+wnp = 2.2/trp
+squigp = 0.707
+kdp = 2*squigp*wnp*(Jx)
+kpp = (wnp**2)*((Jx))
+kip = 1.0
+
+kpn = 1.0
+kdn = 1.0
+
+trn = 4*trp
+wnn = 2.2/trn
+squign = 0.707
+kdn = ((2*squign*wnn)*m) / (-g*m)
+kpn = ((wnn**2)*m) / (-g*(m))
+kin = 1.0
+
+tre = 4*trt
+wne = 2.2/tre
+squige = 0.707
+kde = ((2*squige*wne)*m) / (-g*m)
+kpe = ((wne**2)*m) / (-g*(m))
+kie = 1.0
+
+trh = 0.68
+wnh = 2.2/trh
+squigh = 0.707
+kdh = 2*squigh*wnh*m
+kph = (wnh**2)*m
+kih = 1.0
