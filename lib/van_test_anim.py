@@ -12,7 +12,7 @@ def van_states(t):
     psi = 0
 
     if i < 2.5:
-        pn = n0 + 55.*(t/2.5)
+        pn = n0 + 55.*((t%2.5)/2.5)
         pe = 55./2.
         psi = np.deg2rad(-90)
 
