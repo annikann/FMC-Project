@@ -12,19 +12,20 @@ plt.close("all")
 
 anim = ANIM.animation(limits=30, groundVerts=qual_verts, flag=False)
 drone = quadDynamics()
+cont = controller()
 anim.QualityMap = qual
 
 anim.van_verts = van_verts
 anim.drone_verts = drone_verts
 
+y = np.array([[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0]])
+
 t = 0
 # plt.pause(5)
 while t < 30:
-    F = 24.
-    if t < 10:
-        l = 0.01
-        m = 0.
-        n = 0.
+    F, l, m = cont.update(0, 5, 10, y)
+    n = 0.0
+    print(F,l,m,n)
     
 
     van_state = van_states(t)
@@ -33,6 +34,4 @@ while t < 30:
     uav_state = np.array([y[0][0], y[1][0], y[2][0], y[6][0], y[7][0], y[8][0]])
     anim.update(uav_state, van_state, flag=False)
     plt.pause(0.05)
-    t += 0.05
-    
-# 
+    t += P.ts_simulation
