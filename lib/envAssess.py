@@ -3,11 +3,6 @@
 import numpy as np
 import random
 
-groundFaceColors = []
-for i in range(0, 100):
-    n = random.randint(0,3)
-    groundFaceColors.append(n)
-
 grid_dim = 5.
 drone_pn = -15.
 drone_pe = 0.
@@ -15,7 +10,11 @@ drone_pe = 0.
 def assessLand(groundFaceColors, grid_dim, drone_pn, drone_pe):
     grid_size = len(groundFaceColors)/2
     safety_map = np.reshape(groundFaceColors, (int(grid_size/grid_dim), int(grid_size/grid_dim)))
-    print(safety_map)
+    safety_map[safety_map=='tab:red'] = 0
+    safety_map[safety_map=='tab:orange'] = 1
+    safety_map[safety_map=='y'] = 2
+    safety_map[safety_map=='tab:green'] = 3
+    safety_map = safety_map.astype(int)
     land_zone = []
 
     east_vals = np.arange(-20, 25, 5)
@@ -34,11 +33,11 @@ def assessLand(groundFaceColors, grid_dim, drone_pn, drone_pe):
     land_zone.append(safety_map[row1, col2]) # upper right
     land_zone.append(safety_map[row2, col1]) # lower left
     land_zone.append(safety_map[row2, col2]) # lower right
-    print(col1, col2)
-    print(row1, row2)
-    print(land_zone)
+    # print(col1, col2)
+    # print(row1, row2)
+    # print(land_zone)
 
-    if 0 in land_zone:
+    if 0. in land_zone:
         test = str('Unsafe to land, return to van.')
     else:
         land = np.average(land_zone)
@@ -49,5 +48,5 @@ def assessLand(groundFaceColors, grid_dim, drone_pn, drone_pe):
     
     return test
 
-test = assessLand(groundFaceColors, grid_dim, drone_pn, drone_pe)
-print(test)
+# test = assessLand(groundFaceColors, grid_dim, drone_pn, drone_pe)
+# print(test)

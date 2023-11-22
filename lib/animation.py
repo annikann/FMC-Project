@@ -48,6 +48,7 @@ class animation():
         for r in range(nRows):
             for c in range(nCols):
                 self.groundFaceColors.append(color_choices[int(landQualMap[c,r])-1])
+        return self.groundFaceColors
         
     
     def rotate_translate(self, vertices, pn, pe, pd, phi, theta, psi):

@@ -7,6 +7,7 @@ from lib.van_test_anim import van_states
 from lib.drone_test_anim import drone_states
 from lib.quadDynamics import quadDynamics
 from lib.quadController2 import controller
+import lib.envAssess as land
 import lib.quadParameters as P
 import numpy as np
 import matplotlib.pyplot as plt
@@ -25,7 +26,10 @@ y = np.array([[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0]])
 t = 0
 # plt.pause(5)
 while t < 30:
-    F, l, m, n = cont.update(0, 5, 10, y)
+    n_r = 0
+    e_r = 5
+    h_r = 10
+    F, l, m, n = cont.update(n_r, e_r, h_r, y)
     n = 0.0
     # print(F, l, m, n)
 
@@ -34,5 +38,9 @@ while t < 30:
     y = drone.update(F, l, m, n)
     uav_state = np.array([y[0][0], y[1][0], y[2][0], y[6][0], y[7][0], y[8][0]])
     anim.update(uav_state, van_state, flag=False)
+    safety = anim.setGroundFaceColors()
+    test = land.assessLand(safety, 5., n_r, e_r)
     plt.pause(0.05)
     t += P.ts_simulation
+
+    print(test) # right now the land assessment works when giving it the target coords
