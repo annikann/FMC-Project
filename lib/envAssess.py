@@ -7,7 +7,7 @@ grid_dim = 5.
 drone_pn = -15.
 drone_pe = 0.
 
-def assessLand(groundFaceColors, grid_dim, drone_pn, drone_pe):
+def assessLand(groundFaceColors, grid_dim, drone_pn, des_pn, drone_pe, des_pe):
     grid_size = len(groundFaceColors)/2
     safety_map = np.reshape(groundFaceColors, (int(grid_size/grid_dim), int(grid_size/grid_dim)))
     safety_map[safety_map=='tab:red'] = 0
@@ -20,12 +20,13 @@ def assessLand(groundFaceColors, grid_dim, drone_pn, drone_pe):
     east_vals = np.arange(-20, 25, 5)
     north_vals = np.arange(-20, 25, 5)
 
+    # Gets landing zone squares based on desired end spot
     for i in range(len(east_vals)):
-        if east_vals[i] == drone_pe:
+        if east_vals[i] == des_pe:
             col1 = i
             col2 = i + 1
     for i in range(len(north_vals)):
-        if north_vals[i] == -drone_pn:
+        if north_vals[i] == -des_pn:
             row1 = i
             row2 = i + 1
 
@@ -37,6 +38,8 @@ def assessLand(groundFaceColors, grid_dim, drone_pn, drone_pe):
     # print(row1, row2)
     # print(land_zone)
 
+    # Nest these statements under a check for the actual positions reaching
+    # within a certain range of the desired.
     if 0. in land_zone:
         test = str('Unsafe to land, return to van.')
     else:

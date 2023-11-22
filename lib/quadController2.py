@@ -103,7 +103,7 @@ class controller:
             phi_r = 0.0
             theta_r = 0.0
 
-        l,m,n = self.update_moments(phi_r, theta_r, psi_r, state)
+        l, m, n = self.update_moments(phi_r, theta_r, psi_r, state)
         return f, l, m, n
     
     def saturate(self, u, limit):
