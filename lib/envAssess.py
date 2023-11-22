@@ -13,7 +13,8 @@ drone_pn = -15.
 drone_pe = 0.
 
 def assessLand(groundFaceColors, grid_dim, drone_pn, drone_pe):
-    safety_map = np.reshape(groundFaceColors, (int(50./grid_dim), int(50./grid_dim)))
+    grid_size = len(groundFaceColors)/2
+    safety_map = np.reshape(groundFaceColors, (int(grid_size/grid_dim), int(grid_size/grid_dim)))
     print(safety_map)
     land_zone = []
 
@@ -33,13 +34,15 @@ def assessLand(groundFaceColors, grid_dim, drone_pn, drone_pe):
     land_zone.append(safety_map[row1, col2]) # upper right
     land_zone.append(safety_map[row2, col1]) # lower left
     land_zone.append(safety_map[row2, col2]) # lower right
+    print(col1, col2)
+    print(row1, row2)
     print(land_zone)
 
-    if 3 in land_zone:
+    if 0 in land_zone:
         test = str('Unsafe to land, return to van.')
     else:
         land = np.average(land_zone)
-        if land <= 1.:
+        if land > 1.:
             test = str('Success, package delivered')
         else:
             test = str('Unsafe to land, return to van')

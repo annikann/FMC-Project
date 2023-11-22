@@ -6,6 +6,8 @@ from lib.objects import qual_verts, qual
 from lib.van_test_anim import van_states
 from lib.drone_test_anim import drone_states
 from lib.quadDynamics import quadDynamics
+from lib.quadController2 import controller
+import lib.quadParameters as P
 import numpy as np
 import matplotlib.pyplot as plt
 plt.close("all")
@@ -23,10 +25,9 @@ y = np.array([[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0]])
 t = 0
 # plt.pause(5)
 while t < 30:
-    F, l, m = cont.update(0, 5, 10, y)
+    F, l, m, n = cont.update(0, 5, 10, y)
     n = 0.0
-    print(F,l,m,n)
-    
+    # print(F, l, m, n)
 
     van_state = van_states(t)
     # uav_state = drone_states(t)

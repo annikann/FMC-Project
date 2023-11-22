@@ -94,7 +94,6 @@ class controller:
         theta_r = (1/P.g) * (eddot_r*np.cos(psi_r) + nddot_r*np.sin(psi_r))
 
         return phi_r, theta_r, psi_r
-
     
     def update(self, n_r, e_r, h_r, state):
         f = self.update_h(h_r, state)
