@@ -75,6 +75,9 @@ class quadDynamics:
         return x_dot
     
     def h(self):
+        # Allow a psi wraparound
+        if self.state[8][0] > np.deg2rad(360):
+            self.state[8][0] = self.state[8][0] - np.deg2rad(360)
         pn = self.state[0][0]
         pe = self.state[1][0]
         pd = self.state[2][0]

@@ -1,4 +1,5 @@
 # Test Sim file (to check general animation file)
+# INCLUDES PLOTTING
 
 import lib.animation as ANIM
 from lib.objects import van_verts, drone_verts

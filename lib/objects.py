@@ -27,7 +27,7 @@ drone_verts = (drone_mesh.vectors*np.array([-1, 1, -1]))/30
 # Ground
 qual, size = quality()
 qual_verts = np.zeros([(size**2), 5, 3])
-grid_dim = 5 # 1x1 meter grid sqaures
+grid_dim = 5 # 5x5 meter grid sqaures
 
 for yi in range(size):
     for xi in range(size):
