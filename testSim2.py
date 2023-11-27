@@ -25,7 +25,7 @@ anim.drone_verts = drone_verts
 y = np.array([[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0]])
 
 t = 0
-# plt.pause(5)
+plt.pause(5)
 while t < 50:
     F, l, m = cont.update(10, 10, 10, y)
     n = 0.0
