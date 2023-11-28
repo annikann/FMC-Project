@@ -3,7 +3,7 @@
 import numpy as np
 from stl import mesh
 import matplotlib.pyplot as plt
-from quality_map import quality
+from lib.quality_map import quality
 import os
 import sys
 repo = os.getcwd()

@@ -103,7 +103,7 @@ class controller:
         theta_r_unsat = (self.kpz*(z_error)) - (self.kdz*self.n_dot)
 
         theta_r = self.saturate(theta_r_unsat, np.deg2rad(15))
-        print(np.deg2rad(theta_r), np.deg2rad(theta))
+        #print(np.deg2rad(theta_r), np.deg2rad(theta))
 
         if (self.kiz != 0.0):
             self.n_integrator = self.n_integrator + P.ts_simulation/self.kiz*(theta_r - theta_r_unsat)
@@ -133,7 +133,9 @@ class controller:
 
         l = self.update_l(e_r, e, phi)
 
-        return f, l, m
+        n = 0
+
+        return f, l, m, n
     
     
     def saturate(self, u, limit):

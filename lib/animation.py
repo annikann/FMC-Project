@@ -50,6 +50,7 @@ class animation():
                 self.groundFaceColors.append(color_choices[int(landQualMap[c,r])-1])
         return self.groundFaceColors
         
+        
     
     def rotate_translate(self, vertices, pn, pe, pd, phi, theta, psi):
 
@@ -129,7 +130,7 @@ class animation():
             self.ground = self.ax.add_collection3d(poly)
 
         else:
-            self.object.set_verts(self.ground_faces)
+            self.ground.set_verts(self.ground_faces)
     
     def genGroundFaces(self, verts):
         # np.zeros([(size**2), 5, 3])

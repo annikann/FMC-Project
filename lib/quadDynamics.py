@@ -4,12 +4,15 @@ import numpy as np
 import lib.quadParameters as P
 from lib.rotations import Quaternion2Euler, Quaternion2Rotation, Euler2Rotation
 from math import cos, sin, tan
+from lib.van_test_anim import van_states2
+from lib.drone_test_anim import drone_states_init
 
 class quadDynamics:
     def __init__(self):
         self.Ts = P.ts_simulation
         # set initial states based on parameter file
-        self.state = P.state0
+        van_state, van_vel = van_states2(0)
+        self.state = drone_states_init(van_state,van_vel)
         self.m = P.m
         self.g = P.g
         self.Jx = P.Jx

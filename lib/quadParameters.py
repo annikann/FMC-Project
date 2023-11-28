@@ -84,9 +84,9 @@ kdp = 2*squigp*wnp*(Jx)
 kpp = (wnp**2)*((Jx))
 kip = 1.0
 
-tre = 5*trp
+tre = 1*trp
 wne = 2.2/tre
-squige = 0.4
+squige = 3
 kde = ((2*squige*wne)*m) / (-g*m)
 kpe = ((wne**2)*m) / (-g*(m))
 kie = 0.5

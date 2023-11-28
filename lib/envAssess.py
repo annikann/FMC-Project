@@ -41,15 +41,18 @@ def assessLand(groundFaceColors, grid_dim, drone_pn, des_pn, drone_pe, des_pe):
     # Nest these statements under a check for the actual positions reaching
     # within a certain range of the desired.
     if 0. in land_zone:
-        test = str('Unsafe to land, return to van.')
+        test = str('Unsafe to land, find new landing zone.')
+        result = False
     else:
         land = np.average(land_zone)
         if land > 1.:
-            test = str('Success, package delivered')
+            test = str('Safe to land.')
+            result = True
         else:
-            test = str('Unsafe to land, return to van')
+            test = str('Unsafe to land, find new landing zone.')
+            result = False
     
-    return test
+    return test, result
 
 # test = assessLand(groundFaceColors, grid_dim, drone_pn, drone_pe)
 # print(test)
