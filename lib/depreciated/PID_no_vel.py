@@ -16,7 +16,6 @@ class controller:
         self.kpz = P.kpe
         self.kdz = P.kde
         self.kiz = P.kie
-        self.update_gains(True)
 
         self.beta = (2.0*P.sigma - P.ts_simulation) / (2.0*P.sigma + P.ts_simulation)
 
@@ -68,16 +67,17 @@ class controller:
 
         return f
     
-    def update_l(self, z_r, z, v_r, theta, max_angle):
+    def update_l(self, z_r, z, theta):
         z_error = z_r - z
 
         self.z_integrator = self.z_integrator + (P.ts_simulation/2)*(z_error+self.z_error_d1)
 
         self.z_dot = (self.beta*self.z_dot) + (1 - self.beta)*((z-self.z_d1)/P.ts_simulation)
 
-        theta_r_unsat = (self.kpz*(z_error)) + (self.kdz*(v_r - self.z_dot))
+        theta_r_unsat = (self.kpz*(z_error)) - (self.kdz*self.z_dot)
 
-        theta_r = self.saturate(theta_r_unsat, max_angle)
+        theta_r = self.saturate(theta_r_unsat, np.deg2rad(15))
+        #print(np.deg2rad(theta_r), np.deg2rad(theta))
 
         if (self.kiz != 0.0):
             self.z_integrator = self.z_integrator + P.ts_simulation/self.kiz*(theta_r - theta_r_unsat)
@@ -93,16 +93,16 @@ class controller:
         self.t_d1 = theta
         return tau_unsat
     
-    def update_m(self, z_r, z, u_r, theta, max_angle):
+    def update_m(self, z_r, z, theta):
         z_error = z_r - z
 
         self.n_integrator = self.n_integrator + (P.ts_simulation/2)*(z_error+self.n_error_d1)
 
         self.n_dot = (self.beta*self.n_dot) + (1 - self.beta)*((z-self.n_d1)/P.ts_simulation)
 
-        theta_r_unsat = (self.kpz*(z_error)) + (self.kdz*(u_r - self.n_dot))
+        theta_r_unsat = (self.kpz*(z_error)) - (self.kdz*self.n_dot)
 
-        theta_r = self.saturate(theta_r_unsat, max_angle)
+        theta_r = self.saturate(theta_r_unsat, np.deg2rad(15))
         #print(np.deg2rad(theta_r), np.deg2rad(theta))
 
         if (self.kiz != 0.0):
@@ -120,7 +120,7 @@ class controller:
         return tau_unsat
 
     
-    def update(self, n_r, e_r, h_r, u_r, v_r, y, level):
+    def update(self, n_r, e_r, h_r, y):
         e_r = -1*e_r
         f = self.update_h(h_r, y)
 
@@ -129,57 +129,13 @@ class controller:
         phi = y[6][0]
         theta = y[7][0]
 
-        if level == True:
-            max_angle = np.deg2rad(12.5)
-        else: max_angle = np.deg2rad(25)
+        m = self.update_m(n_r, n, theta)
 
-        m = self.update_m(n_r, n, u_r, theta, max_angle)
-
-        l = self.update_l(e_r, e, v_r, phi, max_angle)
+        l = self.update_l(e_r, e, phi)
 
         n = 0
 
         return f, l, m, n
-    
-    def update_gains(self, init):
-        
-        if init == True:
-            m = P.m
-        else:
-            m = P.m - P.p_mass
-
-        trh = 0.68
-        wnh = 2.2/trh
-        squigh = 1.0
-        kdh = 2*squigh*wnh*m
-        kph = (wnh**2)*m
-        kih = 1.0
-
-        trp = 0.8
-        wnp = 2.2/trp
-        squigp = 0.85
-        kdp = 2*squigp*wnp*(P.Jx)
-        kpp = (wnp**2)*((P.Jx))
-        kip = 1.0
-
-        tre = 1*trp
-        wne = 2.2/tre
-        squige = 3
-        kde = ((2*squige*wne)*m) / (-P.g*m)
-        kpe = ((wne**2)*m) / (-P.g*(m))
-        kie = 0.5
-
-        self.kph = kph
-        self.kdh = kdh
-        self.kih = kih
-
-        self.kpt = kpp
-        self.kdt = kdp
-        self.kit = kip
-
-        self.kpz = kpe
-        self.kdz = kde
-        self.kiz = kie
     
     
     def saturate(self, u, limit):

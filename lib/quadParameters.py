@@ -22,8 +22,8 @@ ts_control = ts_simulation  # sample rate for the controller
                 #   Initial Conditions
 ######################################################################################
 #   Initial conditions for MAV
-pn0 = 0.  # initial north position
-pe0 = 0.  # initial east position
+pn0 = -10.  # initial north position
+pe0 = -10.  # initial east position
 pd0 = 0.  # initial down position
 u0 = 0.  # initial velocity along body x-axis
 v0 = 0.  # initial velocity along body y-axis
@@ -64,7 +64,9 @@ Jx = 0.171200 #0.114700
 Jy = 0.171200 #0.057600
 Jz = 0.171200 #0.171200
 g = 9.806650
-m = 1.56
+
+p_mass = 0.5*np.random.random()
+m = 1.56 + p_mass
 
 # Gains
 
@@ -72,7 +74,7 @@ m = 1.56
 
 trh = 0.68
 wnh = 2.2/trh
-squigh = 0.707
+squigh = 1.0
 kdh = 2*squigh*wnh*m
 kph = (wnh**2)*m
 kih = 1.0

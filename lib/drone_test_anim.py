@@ -10,7 +10,7 @@ def drone_states_init(van_states, van_vel):
 
     pn = van_states[0]
     pe = van_states[1]
-    pd = van_states[2]
+    pd = van_states[2] - 1.0
     
     u = van_vel[0]
     v = van_vel[1]

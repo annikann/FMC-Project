@@ -13,6 +13,7 @@ class quadDynamics:
         # set initial states based on parameter file
         van_state, van_vel = van_states2(0)
         self.state = drone_states_init(van_state,van_vel)
+        #self.state = P.state0
         self.m = P.m
         self.g = P.g
         self.Jx = P.Jx
@@ -103,3 +104,6 @@ class quadDynamics:
         k3 = self.f(self.state + self.Ts/2.*k2, F, l, m, n)
         k4 = self.f(self.state + self.Ts*k3, F, l, m, n)
         self.state += self.Ts/6 * (k1 + 2*k2 + 2*k3 + k4)
+
+    def update_m(self):
+        self.m = self.m - P.p_mass

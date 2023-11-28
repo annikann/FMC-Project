@@ -37,13 +37,13 @@ def van_states(t):
 def van_states2(t):
 
     #time to drive across each side
-    side_time = 5.0
+    side_time = 10
     
     #side length
     l = 55.0
 
     #pause time at each corner before turn
-    p_time = 1.0
+    p_time = 0.0
 
     #total time to drive around
     t_time = (4*(side_time + p_time))
@@ -123,5 +123,20 @@ def van_states2(t):
 
     
     return [pn,pe,pd,phi,theta,psi], [u,v,w]
+
+def van_objective(t):
+    van_pos, van_vel = van_states2(t)
+    if van_vel[0] > 0:
+        van_pos[0] += -3
+    elif van_vel[0] < 0:
+        van_pos[0] += 3
+    elif van_vel[1] > 0:
+        van_pos[1] += -3
+    elif van_vel[1] < 0:
+        van_pos[1] += 3
+    
+    van_pos[2] = 1
+    
+    return van_pos, van_vel
         
 
