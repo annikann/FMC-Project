@@ -80,7 +80,7 @@ while True:
         # If sufficiently settled on target
         if hover_timer > 3.0:
             # Assess LZ
-            text,safe = land.assessLand(q_map, 5., y[0][0], n_r, y[1][0], e_r)
+            text, safe = land.assessLand(q_map, 5., y[0][0], n_r, y[1][0], e_r)
             print(text)
 
             # Begin landing procedure

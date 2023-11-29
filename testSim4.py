@@ -14,6 +14,7 @@ import lib.quadParameters as P
 from lib.quality_map import LZ_gen
 from lib.desired_states import distance, future_van
 import lib.envAssess as land
+from lib.percentage import percent
 plt.close("all")
 plt.ion()
 
@@ -37,6 +38,7 @@ on_target = False # Flag for if drone is at target pos
 # Timers to assure drone is settled on target
 hover_timer = 0.0
 land_timer = 0.0
+return_timer = 0.0
 
 t = 0
 # Initialze drone pos/vels
@@ -45,7 +47,6 @@ y = drone.state
 # Generate initial LZ
 n_r, e_r = LZ_gen()
 h_r = 15
-
 
 #plt.pause(5)
 while True:
@@ -130,19 +131,26 @@ while True:
     
     # Return to van
     elif returning == True:
+        return_timer += P.ts_simulation
         
         # Predict future van location based off distance
         n_r, e_r, h_r, u_r, v_r = future_van(t, y)
 
         # End simulation once drone has returned to van
-        van_state, van_vel= van_objective(t)
-        n_v = van_state[0]
-        e_v = van_state[1]
-        h_v = van_state[2]
-        #print(distance(n_v, e_v, h_v, y))
-        if distance(n_v, e_v, h_v, y) < 0.75:
-            print("SUCCESS!")
-            break
+        if return_timer < 15.:  # gives the drone some time to match van before dropping
+            van_state, van_vel = van_objective(t)
+            n_v = van_state[0]
+            e_v = van_state[1]
+            h_r = 8
+        
+        elif return_timer < 100.:
+            van_state, van_vel = van_objective(t)
+            n_v = van_state[0]
+            e_v = van_state[1]
+            h_v = van_state[2]
+            if distance(n_v, e_v, h_v, y) < 2:
+                print("SUCCESS!")
+                break
 
     # Check if crashed
     if y[2][0] > 0.0:
@@ -157,7 +165,7 @@ while True:
     y = drone.update(F, l, m, n)
 
     # Update predetermined van states
-    van_state, van_vel= van_states2(t)
+    van_state, van_vel = van_states2(t)
 
     # Update animation
     uav_state = np.array([y[0][0], y[1][0], y[2][0], y[6][0], y[7][0], y[8][0]])
