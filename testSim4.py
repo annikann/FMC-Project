@@ -14,7 +14,6 @@ import lib.quadParameters as P
 from lib.quality_map import LZ_gen
 from lib.desired_states import distance, future_van
 import lib.envAssess as land
-from lib.percentage import percent
 plt.close("all")
 plt.ion()
 
