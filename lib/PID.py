@@ -164,8 +164,8 @@ class controller:
         tre = 1*trp
         wne = 2.2/tre
         squige = 3
-        kde = ((2*squige*wne)*m) / (-P.g*m)
-        kpe = ((wne**2)*m) / (-P.g*(m))
+        kde = ((2*squige*wne)*m) / (-P.g)
+        kpe = ((wne**2)*m) / (-P.g)
         kie = 0.5
 
         self.kph = kph
