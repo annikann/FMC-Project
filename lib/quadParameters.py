@@ -8,7 +8,7 @@ import mpl_toolkits.mplot3d.axes3d as p3
 ######################################################################################
                 #   Simulation Parameters
 ######################################################################################
-ts_simulation = 0.05  # smallest time step for simulation
+ts_simulation = 0.1  # smallest time step for simulation
 start_time = 0.  # start time for simulation
 end_time = 400.  # end time for simulation
 

@@ -118,9 +118,6 @@ def van_states2(t):
         pn = n0
         pe = e0
         psi = np.deg2rad(0)
-
-
-
     
     return [pn,pe,pd,phi,theta,psi], [u,v,w]
 

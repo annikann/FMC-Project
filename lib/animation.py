@@ -23,7 +23,9 @@ class animation():
         self.flag_init = True
         self.fig = plt.figure(1)
         if flag == True:
-            self.ax = self.fig.add_subplot(1, 3, 2, projection="3d") 
+            self.ax = self.fig.add_subplot(1, 2, 1, projection="3d") 
+            axpos = self.ax.get_position(); axpos.x0 -= 0.05; axpos.x1 -= 0.05; self.ax.set_position(axpos)
+
         else:
             self.ax = self.fig.add_subplot(111, projection='3d')
         self.ax.set_xlim([-limits,limits])

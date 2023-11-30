@@ -17,7 +17,7 @@ import lib.envAssess as land
 plt.close("all")
 plt.ion()
 
-anim = ANIM.animation(limits=30, groundVerts=qual_verts, flag=False)
+anim = ANIM.animation(limits=30, groundVerts=qual_verts, flag=True)
 drone = quadDynamics()
 cont = controller()
 anim.QualityMap = qual

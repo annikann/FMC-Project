@@ -42,8 +42,6 @@ class controller:
         self.p_dot = 0.0
         self.p_d1 = 0.0
     
-
-    
     def update_h(self, h_r, y):
         h = -y[2][0]
 
@@ -123,6 +121,7 @@ class controller:
     def update(self, n_r, e_r, h_r, u_r, v_r, y, level):
         e_r = -1*e_r
         f = self.update_h(h_r, y)
+        f = self.saturate(f, 100)
 
         n = y[0][0]
         e = -y[1][0]
